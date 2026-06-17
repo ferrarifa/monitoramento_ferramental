@@ -6,6 +6,7 @@ package com.monitoramento.ferramental.controller;
 
 import ch.qos.logback.core.model.Model;
 import com.monitoramento.ferramental.model.FerramentaDTO;
+import com.monitoramento.ferramental.service.FerramentaService;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,18 +22,19 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class FerramentaController {
     
     @Autowired
-    FerramentaDTO d;
+    private FerramentaService service;
     
     @GetMapping("/")
-    public String home(){
-        return "index";
+    public String index(){
+        return "redirect://ferramentas";
         
     }
     
     @GetMapping("/ferramentas")
-    public String ferramenta(Model model){
-        List<FerramentaDTO> lista = d.listaFerramenta();
-        model.addAttribute("lista", lista);
+    public String listarFerramentas(Model model){
+        List<FerramentaDTO> lista = service.listaFerramenta();
+        model.addAttribute("ferramentas", lista);
+        
         return "ferramentas";
            
         

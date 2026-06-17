@@ -11,90 +11,91 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author Aluno
  */
+@Repository
 public class FerramentaRepository {
-    
-    public int salvar(FerramentaDTO ferramenta){
+
+    public int salvar(FerramentaDTO ferramenta) {
         int linhas = 0;
-        
-        try{
+
+        try {
             Connection conn = Conexao.conectar();
             PreparedStatement stmt = null;
-            stmt = conn.prepareStatement("INSERT INTO ferramental (id, nome, horasUso, vidaUltMaxima) values (?,?,?,?)");
-            stmt.setInt(1, ferramenta.getId());
-            stmt.setString(2, ferramenta.getNome());
-            stmt.setInt(3, ferramenta.getHorasUso());
-            stmt.setInt(4, ferramenta.getVidaUltMaxima());
-            
+            stmt = conn.prepareStatement("INSERT INTO ferramental (nome, horasUso, vidaUtilMaxima) values (?,?,?)");
+            stmt.setString(1, ferramenta.getNome());
+            stmt.setInt(2, ferramenta.getHorasUso());
+            stmt.setInt(3, ferramenta.getVidaUtilMaxima());
+
             linhas = stmt.executeUpdate();
-        }catch(SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
-    }
+        }
         return linhas;
-        
+
     }
-    
-    public List<FerramentaDTO> listaFerramenta(){
+
+    public List<FerramentaDTO> listaFerramenta() {
         List<FerramentaDTO> listaFerramenta = new ArrayList<>();
-        try{
+        try {
             Connection conn = Conexao.conectar();
             PreparedStatement stmt = null;
             ResultSet rs = null;
             stmt = conn.prepareStatement("SELECT * from ferramental");
             rs = stmt.executeQuery();
-            
-            while (rs.next()){
+
+            while (rs.next()) {
                 FerramentaDTO ferramenta = new FerramentaDTO();
                 ferramenta.setId(rs.getInt("id"));
                 ferramenta.setNome(rs.getString("nome"));
                 ferramenta.setHorasUso(rs.getInt("horasUso"));
-                ferramenta.setVidaUltMaxima(rs.getInt("vidaUltiMaxima"));
+                ferramenta.setVidaUtilMaxima(rs.getInt("vidaUtilMaxima"));
                 listaFerramenta.add(ferramenta);
-                
+
             }
-        }catch(SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
-            
+
         }
         return listaFerramenta;
     }
-    
-    public int deleteByld(Long id){
+
+    public int deleteByld(int id) {
         int linhas = 0;
-        try{
+        try {
             Connection conn = Conexao.conectar();
             PreparedStatement stmt = null;
             stmt = conn.prepareStatement("DELETE FROM ferramental WHERE id = ?");
             linhas = stmt.executeUpdate();
-           
-            
-            
-            
-        }catch(SQLException e){
+
+        } catch (SQLException e) {
             e.printStackTrace();
-            
+
         }
         return linhas;
     }
-    
-    public int update(FerramentaDTO ferramenta){
+
+    public int update(FerramentaDTO ferramenta) {
         int linhas = 0;
-        try{
+        try {
             Connection conn = Conexao.conectar();
             PreparedStatement stmt = null;
             stmt = conn.prepareStatement("UPDATE ferramental SET nome = ?, horasUso = ?, vidaUtilMaxima = ? WHERE id = ?");
+            stmt.setString(1, ferramenta.getNome());
+            stmt.setInt(2, ferramenta.getHorasUso());
+            stmt.setInt(3, ferramenta.getVidaUtilMaxima());
+            stmt.setInt(4, ferramenta.getId());
+
             linhas = stmt.executeUpdate();
-            
-            
-        }catch(SQLException e){
+
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return linhas;
     }
-    
-    
+
 }
