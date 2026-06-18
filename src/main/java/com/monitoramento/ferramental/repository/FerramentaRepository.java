@@ -26,7 +26,7 @@ public class FerramentaRepository {
         try {
             Connection conn = Conexao.conectar();
             PreparedStatement stmt = null;
-            stmt = conn.prepareStatement("INSERT INTO ferramental (nome, horasUso, vidaUtilMaxima) values (?,?,?)");
+            stmt = conn.prepareStatement("INSERT INTO tb_ferramenta (nome, horasUso, vidaUtilMaxima) values (?,?,?)");
             stmt.setString(1, ferramenta.getNome());
             stmt.setInt(2, ferramenta.getHorasUso());
             stmt.setInt(3, ferramenta.getVidaUtilMaxima());
@@ -45,12 +45,12 @@ public class FerramentaRepository {
             Connection conn = Conexao.conectar();
             PreparedStatement stmt = null;
             ResultSet rs = null;
-            stmt = conn.prepareStatement("SELECT * from ferramental");
+            stmt = conn.prepareStatement("SELECT * from tb_ferramenta");
             rs = stmt.executeQuery();
 
             while (rs.next()) {
                 FerramentaDTO ferramenta = new FerramentaDTO();
-                ferramenta.setId(rs.getInt("id"));
+                ferramenta.setId(rs.getInt("id_ferramenta"));
                 ferramenta.setNome(rs.getString("nome"));
                 ferramenta.setHorasUso(rs.getInt("horasUso"));
                 ferramenta.setVidaUtilMaxima(rs.getInt("vidaUtilMaxima"));
@@ -69,7 +69,7 @@ public class FerramentaRepository {
         try {
             Connection conn = Conexao.conectar();
             PreparedStatement stmt = null;
-            stmt = conn.prepareStatement("DELETE FROM ferramental WHERE id = ?");
+            stmt = conn.prepareStatement("DELETE FROM tb_ferramenta WHERE id_ferramenta = ?");
             linhas = stmt.executeUpdate();
 
         } catch (SQLException e) {
@@ -84,7 +84,7 @@ public class FerramentaRepository {
         try {
             Connection conn = Conexao.conectar();
             PreparedStatement stmt = null;
-            stmt = conn.prepareStatement("UPDATE ferramental SET nome = ?, horasUso = ?, vidaUtilMaxima = ? WHERE id = ?");
+            stmt = conn.prepareStatement("UPDATE tb_ferramenta SET nome = ?, horasUso = ?, vidaUtilMaxima = ? WHERE id_ferramenta = ?");
             stmt.setString(1, ferramenta.getNome());
             stmt.setInt(2, ferramenta.getHorasUso());
             stmt.setInt(3, ferramenta.getVidaUtilMaxima());

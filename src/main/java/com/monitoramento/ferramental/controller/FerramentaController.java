@@ -4,13 +4,13 @@
  */
 package com.monitoramento.ferramental.controller;
 
-import ch.qos.logback.core.model.Model;
 import com.monitoramento.ferramental.model.FerramentaDTO;
 import com.monitoramento.ferramental.service.FerramentaService;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -20,29 +20,28 @@ import org.springframework.web.bind.annotation.PostMapping;
  */
 @Controller
 public class FerramentaController {
-    
+
     @Autowired
     private FerramentaService service;
-    
+
     @GetMapping("/")
-    public String index(){
+    public String index() {
         return "redirect://ferramentas";
-        
+
     }
-    
+
     @GetMapping("/ferramentas")
-    public String listarFerramentas(Model model){
+    public String listarFerramentas(Model model) {
         List<FerramentaDTO> lista = service.listaFerramenta();
         model.addAttribute("ferramentas", lista);
-        
+
         return "ferramentas";
-           
-        
+
     }
-    
+
     @PostMapping("/ferramentas/salvar")
-    public String ferramentasSalvar(){
+    public String ferramentasSalvar() {
         return "redirect:/ferramentas";
     }
-    
+
 }
